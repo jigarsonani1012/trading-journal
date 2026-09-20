@@ -265,6 +265,35 @@ export function PwaInstallModal({
           )}
         </div>
 
+        {/* Direct Download Options */}
+        <div className="p-3 rounded-lg bg-surface-2 border border-border space-y-2">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-xs font-semibold text-fg">Direct Desktop Shortcut File</div>
+              <div className="text-[11px] text-fg-3">Download a 1-click launcher file directly to your computer</div>
+            </div>
+            <button
+              onClick={() => {
+                const origin = typeof window !== "undefined" ? window.location.origin : "http://localhost:5173";
+                const content = `[InternetShortcut]\nURL=${origin}/\nIconIndex=0\nIconFile=${origin}/favicon.ico\n`;
+                const blob = new Blob([content], { type: "application/internet-shortcut" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "EDGELOG.url";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+              }}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-hover border border-border text-xs font-medium text-fg shadow-sm transition-all"
+            >
+              <Download size={13} className="text-accent" />
+              Download .url
+            </button>
+          </div>
+        </div>
+
         {/* Quick Share / Open in Mobile helper */}
         <div className="flex items-center justify-between pt-1">
           <button
