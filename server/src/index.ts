@@ -11,6 +11,9 @@ import columnsRouter from "./routes/columns.js";
 import viewsRouter from "./routes/views.js";
 import metaRouter from "./routes/meta.js";
 import exportRouter from "./routes/export.js";
+import authRouter from "./routes/auth.js";
+import accountsRouter from "./routes/accounts.js";
+import cashbookRouter from "./routes/cashbook.js";
 
 const app = express();
 const PORT = Number(process.env.PORT ?? 3001);
@@ -55,6 +58,9 @@ app.use("/api/columns", columnsRouter);
 app.use("/api/views", viewsRouter);
 app.use("/api/meta", metaRouter);
 app.use("/api/export", exportRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/accounts", accountsRouter);
+app.use("/api/cashbook", cashbookRouter);
 
 // ── 404 handler ───────────────────────────────────────────────────────────────
 app.use((_req, res) => {

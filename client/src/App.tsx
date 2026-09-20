@@ -3,14 +3,15 @@ import { AppShell, CommandPalette, GlobalSearch, Logo } from "./components/AppSh
 import { ToastSystem, ConfirmDialog } from "./components/ui";
 import { TradeDrawer } from "./components/TradeDrawer";
 import { TradeForm } from "./components/TradeForm";
+import { AuthModal } from "./components/AuthModal";
 import { Overview } from "./pages/Overview";
 import { Trades } from "./pages/Trades";
 import { Rules } from "./pages/Rules";
 import { Analytics } from "./pages/Analytics";
 import { Edge } from "./pages/Edge";
 import { Journal } from "./pages/Journal";
+import { Cashbook } from "./pages/Cashbook";
 import { DataWorkspace } from "./pages/Data";
-
 import { ErrorBoundary } from "./components/ErrorBoundary";
 
 function Loading() {
@@ -40,11 +41,13 @@ function Router() {
           {page === "analytics" && <Analytics />}
           {page === "edge" && <Edge />}
           {page === "journal" && <Journal />}
+          {page === "cashbook" && <Cashbook />}
           {page === "data" && <DataWorkspace />}
         </ErrorBoundary>
       </AppShell>
       <TradeDrawer />
       {formState.open && <TradeForm />}
+      <AuthModal />
       <CommandPalette />
       <GlobalSearch />
       <ConfirmDialog />

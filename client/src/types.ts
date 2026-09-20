@@ -136,3 +136,62 @@ export const EMPTY_FILTERS: Filters = {
   search: "", symbols: [], sides: [], setups: [], sessions: [], timeframes: [],
   ruleStatus: "", outcome: "", emotions: [], conditions: [], grades: [], ruleId: "",
 };
+
+// ── Auth & Accounts ─────────────────────────────────────────────────────────
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  activeAccountId?: string;
+}
+
+export interface TradingAccount {
+  _id: string;
+  userId?: string;
+  name: string;
+  broker?: string;
+  currency: "USD" | "INR" | "EUR" | "GBP";
+  startingBalance: number;
+  defaultRiskPercent: number;
+  color: string;
+  isDefault: boolean;
+  createdAt?: string;
+}
+
+// ── Cashbook & Budget ───────────────────────────────────────────────────────
+export interface CashbookTransaction {
+  _id: string;
+  userId?: string;
+  type: "income" | "expense";
+  amount: number;
+  category: string;
+  date: string; // YYYY-MM-DD
+  note?: string;
+  paymentMethod?: string;
+  linkedTradingAccountId?: string;
+  createdAt?: string;
+}
+
+export interface Budget {
+  _id: string;
+  userId?: string;
+  category: string;
+  monthlyLimit: number;
+  monthYear: string;
+  createdAt?: string;
+}
+
+export interface CashbookSummary {
+  totalIncome: number;
+  totalExpense: number;
+  netCashflow: number;
+  monthlyIncome: number;
+  monthlyExpense: number;
+  monthlyNet: number;
+  totalPayouts: number;
+  currentMonth: string;
+  categorySpending: Record<string, number>;
+  monthlyCategorySpending: Record<string, number>;
+  budgets: Budget[];
+}
+

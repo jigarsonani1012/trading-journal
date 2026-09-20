@@ -1,0 +1,56 @@
+{
+  "name": "EDGELOG — Personal Trading OS",
+  "short_name": "EDGELOG",
+  "description": "Institutional-grade trading operating system & financial runway cashbook.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#0b0c0f",
+  "theme_color": "#0b0c0f",
+  "categories": ["finance", "productivity", "business"],
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/maskable-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Performance Overview",
+      "short_name": "Overview",
+      "description": "View overall win-rate, equity curve, and PnL",
+      "url": "/?page=overview",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Trades Database",
+      "short_name": "Trades",
+      "description": "Log and analyze your trading executions",
+      "url": "/?page=trades",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Cashbook & Budget",
+      "short_name": "Cashbook",
+      "description": "Manage trading payouts and living expenses",
+      "url": "/?page=cashbook",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ]
+}

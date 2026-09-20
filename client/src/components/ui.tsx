@@ -1,4 +1,5 @@
 import React, { useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { X, Info, Check, AlertTriangle, ChevronDown } from "lucide-react";
 import { cn } from "../utils/cn";
 import { useStore } from "../store";
@@ -129,8 +130,11 @@ export function StatRow({ label, value, tone }: { label: string; value: React.Re
 export function Drawer({ open, onClose, title, subtitle, children, footer, width = "max-w-[640px]", header }: { open: boolean; onClose: () => void; title?: React.ReactNode; subtitle?: React.ReactNode; children: React.ReactNode; footer?: React.ReactNode; width?: string; header?: React.ReactNode }) {
   useEffect(() => { if (!open) return; const h = (e: KeyboardEvent) => e.key === "Escape" && onClose(); window.addEventListener("keydown", h); document.body.style.overflow = "hidden"; return () => { window.removeEventListener("keydown", h); document.body.style.overflow = ""; }; }, [open, onClose]);
   if (!open) return null;
-  return (
-    <div className="fixed inset-0 z-[60] flex flex-col justify-end md:flex-row md:justify-end" role="dialog" aria-modal="true">
+  
+  if (typeof document === "undefined") return null;
+
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex flex-col justify-end md:flex-row md:justify-end" role="dialog" aria-modal="true">
       <div className="absolute inset-0 bg-black/50 anim-fade" onClick={onClose} />
       {/* Mobile: full-screen bottom sheet | Desktop: right-side panel */}
       <div className={cn(
@@ -151,26 +155,32 @@ export function Drawer({ open, onClose, title, subtitle, children, footer, width
         <div className="flex-1 overflow-y-auto">{children}</div>
         {footer && <div className="shrink-0 border-t border-border px-4 md:px-5 py-3 bg-surface flex items-center justify-end gap-2 pb-[max(16px,env(safe-area-inset-bottom))]">{footer}</div>}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
+
 export function Modal({ open, onClose, title, children, footer, width = "max-w-[520px]" }: { open: boolean; onClose: () => void; title: React.ReactNode; children: React.ReactNode; footer?: React.ReactNode; width?: string }) {
   useEffect(() => { if (!open) return; const h = (e: KeyboardEvent) => e.key === "Escape" && onClose(); window.addEventListener("keydown", h); document.body.style.overflow = "hidden"; return () => { window.removeEventListener("keydown", h); document.body.style.overflow = ""; }; }, [open, onClose]);
   if (!open) return null;
-  return (
-    <div className="fixed inset-0 z-[70] flex items-end sm:items-center justify-center p-0 sm:p-4" role="dialog" aria-modal="true">
-      <div className="absolute inset-0 bg-black/55 anim-fade" onClick={onClose} />
-      <div className={cn("relative w-full bg-surface border border-border shadow-2xl max-h-[92dvh] flex flex-col", "rounded-t-[16px] sm:rounded-[10px] anim-slide-up-full sm:anim-pop", width)}>
+
+  if (typeof document === "undefined") return null;
+
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true">
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-xs anim-fade" onClick={onClose} />
+      <div className={cn("relative w-full bg-surface border border-border shadow-2xl max-h-[90vh] flex flex-col my-auto z-10", "rounded-t-[16px] sm:rounded-2xl anim-slide-up-full sm:anim-pop", width)}>
         {/* Mobile drag handle */}
         <div className="flex justify-center py-2 sm:hidden shrink-0"><div className="h-1 w-10 rounded-full bg-border-strong" /></div>
         <div className="flex items-center justify-between px-4 sm:px-5 py-3 sm:py-3.5 border-b border-border shrink-0">
           <h2 className="text-[14px] font-semibold">{title}</h2>
           <IconButton label="Close" onClick={onClose}><X size={16} /></IconButton>
         </div>
-        <div className="p-4 sm:p-5 overflow-y-auto">{children}</div>
-        {footer && <div className="px-4 sm:px-5 py-3 border-t border-border flex justify-end gap-2 pb-[max(12px,env(safe-area-inset-bottom))] sm:pb-3">{footer}</div>}
+        <div className="p-4 sm:p-5 overflow-y-auto max-h-[calc(90vh-120px)]">{children}</div>
+        {footer && <div className="px-4 sm:px-5 py-3 border-t border-border flex justify-end gap-2 pb-[max(12px,env(safe-area-inset-bottom))] sm:pb-3 shrink-0">{footer}</div>}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
