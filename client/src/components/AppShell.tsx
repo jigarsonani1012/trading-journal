@@ -344,10 +344,31 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </button>
           <button
             onClick={() => setSearchOpen(true)}
-            className="sm:hidden h-9 w-9 flex items-center justify-center rounded-[6px] text-fg-2 hover:bg-surface-hover"
+            className="sm:hidden h-8 w-8 flex items-center justify-center rounded-[6px] text-fg-2 hover:bg-surface-hover"
             aria-label="Search"
           >
-            <Search size={17} />
+            <Search size={15} />
+          </button>
+
+          {/* Mobile User Profile / Sign In button in Header */}
+          <button
+            onClick={user ? () => setPage("data") : openAuthModal}
+            title={user ? `Signed in as ${user.name}` : "Sign In / Register"}
+            className="md:hidden h-8 px-2 flex items-center gap-1.5 rounded-[6px] border border-border bg-surface-2 text-fg-2 hover:text-fg text-xs font-medium"
+          >
+            {user ? (
+              <>
+                <div className="w-5 h-5 rounded-full bg-accent/20 text-accent flex items-center justify-center text-[10px] font-bold">
+                  {user.name.charAt(0).toUpperCase()}
+                </div>
+                <span className="max-w-[65px] truncate text-[11px] font-medium hidden xs:inline">{user.name.split(" ")[0]}</span>
+              </>
+            ) : (
+              <>
+                <LogIn size={13} className="text-accent" />
+                <span className="text-[11px] text-accent font-semibold">Sign In</span>
+              </>
+            )}
           </button>
 
           {/* Command Palette */}
@@ -365,7 +386,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <button
               onClick={handleInstallApp}
               title="Install EDGELOG App"
-              className="inline-flex items-center gap-1.5 h-8 px-2.5 rounded-[6px] bg-accent/15 text-accent border border-accent/30 text-[12px] font-medium hover:bg-accent/25 hover:border-accent/50 active:scale-[0.98] transition-all shadow-sm"
+              className="inline-flex items-center gap-1.5 h-8 px-2 rounded-[6px] bg-accent/15 text-accent border border-accent/30 text-[11.5px] font-medium hover:bg-accent/25 hover:border-accent/50 active:scale-[0.98] transition-all shadow-sm"
             >
               <Download size={13} className="shrink-0" />
               <span className="hidden sm:inline">Install App</span>
@@ -445,6 +466,48 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <button onClick={() => setMoreOpen(false)} aria-label="Close">
                 <X size={16} className="text-fg-3" />
               </button>
+            </div>
+
+            {/* Mobile Account Profile & Sign In */}
+            <div className="p-3 mb-2 rounded-xl bg-surface-2 border border-border">
+              {user ? (
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="w-8 h-8 rounded-full bg-accent/20 text-accent flex items-center justify-center shrink-0 text-xs font-bold border border-accent/30">
+                      {user.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-xs font-semibold text-fg truncate">{user.name}</div>
+                      <div className="text-[10px] text-fg-3 truncate">{user.email}</div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setMoreOpen(false);
+                      logout();
+                    }}
+                    className="flex items-center gap-1 px-2.5 py-1 rounded bg-neg/10 text-neg hover:bg-neg/20 text-xs font-medium transition-colors"
+                  >
+                    <LogOut size={12} />
+                    <span>Sign Out</span>
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => {
+                    setMoreOpen(false);
+                    openAuthModal();
+                  }}
+                  className="w-full flex items-center justify-between py-1 text-xs text-accent font-semibold"
+                >
+                  <span className="flex items-center gap-2">
+                    <LogIn size={15} /> Sign In / Register
+                  </span>
+                  <span className="px-2 py-0.5 rounded text-[10px] bg-accent/15 text-accent uppercase font-bold">
+                    Cloud Vault
+                  </span>
+                </button>
+              )}
             </div>
             {NAV.filter((n) => ["rules", "edge", "journal", "data"].includes(n.id)).map((n) => (
               <button
