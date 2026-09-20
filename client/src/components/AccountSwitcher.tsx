@@ -150,7 +150,7 @@ export function AccountSwitcher() {
 
       {/* Dropdown Menu */}
       {open && (
-        <div className="absolute right-0 sm:left-0 sm:right-auto mt-1.5 w-64 rounded-xl bg-surface border border-border shadow-xl z-50 p-1.5 anim-fade">
+        <div className="absolute right-0 sm:left-0 sm:right-auto mt-1.5 w-64 max-w-[calc(100vw-20px)] rounded-xl bg-surface border border-border shadow-2xl z-50 p-1.5 anim-fade">
           <div className="px-2 py-1.5 text-[10.5px] font-semibold uppercase tracking-wider text-fg-3 border-b border-border/60">
             Trading Portfolios ({accounts.length})
           </div>

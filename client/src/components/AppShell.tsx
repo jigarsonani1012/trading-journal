@@ -323,7 +323,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <select
             value={period}
             onChange={(e) => setPeriod(e.target.value as Period)}
-            className="input lg:hidden !w-auto !h-8 !py-0 !text-[11px] !px-2 !pr-6"
+            className="input hidden sm:inline-block lg:hidden !w-auto !h-8 !py-0 !text-[11px] !px-2 !pr-6"
             aria-label="Period"
           >
             {PERIODS.map((p) => (
@@ -336,7 +336,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           {/* Search */}
           <button
             onClick={() => setSearchOpen(true)}
-            className="hidden sm:inline-flex items-center gap-2 h-8 px-2.5 rounded-[6px] border border-border bg-surface-2 text-fg-3 text-[12px] hover:text-fg hover:border-border-strong transition-colors w-[180px]"
+            className="hidden sm:inline-flex items-center gap-2 h-8 px-2.5 rounded-[6px] border border-border bg-surface-2 text-fg-3 text-[12px] hover:text-fg hover:border-border-strong transition-colors w-[160px] md:w-[180px]"
           >
             <Search size={13} />
             <span className="flex-1 text-left">Search…</span>
@@ -344,7 +344,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </button>
           <button
             onClick={() => setSearchOpen(true)}
-            className="sm:hidden h-8 w-8 flex items-center justify-center rounded-[6px] text-fg-2 hover:bg-surface-hover"
+            className="sm:hidden h-8 w-8 flex items-center justify-center rounded-[6px] text-fg-2 hover:bg-surface-hover shrink-0"
             aria-label="Search"
           >
             <Search size={15} />
@@ -354,19 +354,19 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <button
             onClick={user ? () => setPage("data") : openAuthModal}
             title={user ? `Signed in as ${user.name}` : "Sign In / Register"}
-            className="md:hidden h-8 px-2 flex items-center gap-1.5 rounded-[6px] border border-border bg-surface-2 text-fg-2 hover:text-fg text-xs font-medium"
+            className="md:hidden h-8 px-2 flex items-center gap-1.5 rounded-[6px] border border-border bg-surface-2 text-fg-2 hover:text-fg text-xs font-medium shrink-0"
           >
             {user ? (
               <>
                 <div className="w-5 h-5 rounded-full bg-accent/20 text-accent flex items-center justify-center text-[10px] font-bold">
                   {user.name.charAt(0).toUpperCase()}
                 </div>
-                <span className="max-w-[65px] truncate text-[11px] font-medium hidden xs:inline">{user.name.split(" ")[0]}</span>
+                <span className="max-w-[55px] truncate text-[11px] font-medium hidden xs:inline">{user.name.split(" ")[0]}</span>
               </>
             ) : (
               <>
                 <LogIn size={13} className="text-accent" />
-                <span className="text-[11px] text-accent font-semibold">Sign In</span>
+                <span className="text-[11px] text-accent font-semibold hidden xs:inline">Sign In</span>
               </>
             )}
           </button>
@@ -374,7 +374,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           {/* Command Palette */}
           <button
             onClick={() => setPaletteOpen(true)}
-            className="hidden md:inline-flex h-8 w-8 items-center justify-center rounded-[6px] border border-border bg-surface-2 text-fg-2 hover:text-fg"
+            className="hidden md:inline-flex h-8 w-8 items-center justify-center rounded-[6px] border border-border bg-surface-2 text-fg-2 hover:text-fg shrink-0"
             aria-label="Command palette"
             title="Command palette (⌘K)"
           >
@@ -386,7 +386,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <button
               onClick={handleInstallApp}
               title="Install EDGELOG App"
-              className="inline-flex items-center gap-1.5 h-8 px-2 rounded-[6px] bg-accent/15 text-accent border border-accent/30 text-[11.5px] font-medium hover:bg-accent/25 hover:border-accent/50 active:scale-[0.98] transition-all shadow-sm"
+              className="inline-flex items-center gap-1.5 h-8 px-2 rounded-[6px] bg-accent/15 text-accent border border-accent/30 text-[11.5px] font-medium hover:bg-accent/25 hover:border-accent/50 active:scale-[0.98] transition-all shadow-sm shrink-0"
             >
               <Download size={13} className="shrink-0" />
               <span className="hidden sm:inline">Install App</span>
@@ -396,7 +396,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           {/* New Trade button */}
           <button
             onClick={() => openForm()}
-            className="inline-flex items-center gap-1.5 h-8 px-2.5 md:px-3 rounded-[6px] bg-fg text-bg text-[12.5px] font-medium hover:opacity-90 active:scale-[0.98] transition-all"
+            className="inline-flex items-center gap-1.5 h-8 px-2 sm:px-2.5 md:px-3 rounded-[6px] bg-fg text-bg text-[12px] md:text-[12.5px] font-medium hover:opacity-90 active:scale-[0.98] transition-all shrink-0"
           >
             <Plus size={14} />
             <span className="hidden sm:inline">New Trade</span>
