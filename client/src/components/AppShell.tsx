@@ -31,6 +31,7 @@ import { Segmented } from "./ui";
 import type { Period } from "../types";
 import { fmtDateShort, fmtR } from "../lib/format";
 import { AccountSwitcher } from "./AccountSwitcher";
+import { PwaInstallModal } from "./PwaInstallModal";
 
 const NAV: {
   id: Page;
@@ -115,6 +116,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const [moreOpen, setMoreOpen] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [isInstalled, setIsInstalled] = useState(false);
+  const [installModalOpen, setInstallModalOpen] = useState(false);
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -134,15 +136,20 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   const handleInstallApp = async () => {
     if (deferredPrompt) {
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      if (outcome === "accepted") {
-        setDeferredPrompt(null);
-        toast("Thank you for installing EDGELOG!", "success");
+      try {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === "accepted") {
+          setDeferredPrompt(null);
+          setIsInstalled(true);
+          toast("Thank you for installing EDGELOG!", "success");
+          return;
+        }
+      } catch (err) {
+        console.warn("PWA prompt error:", err);
       }
-    } else {
-      toast("To install EDGELOG: On Mobile, tap Share (↑) and choose 'Add to Home Screen'. On Desktop, click the Install icon in your address bar.", "neutral");
     }
+    setInstallModalOpen(true);
   };
 
   return (
@@ -353,6 +360,18 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <Command size={13} />
           </button>
 
+          {/* Direct Install Button in Header */}
+          {!isInstalled && (
+            <button
+              onClick={handleInstallApp}
+              title="Install EDGELOG App"
+              className="inline-flex items-center gap-1.5 h-8 px-2.5 rounded-[6px] bg-accent/15 text-accent border border-accent/30 text-[12px] font-medium hover:bg-accent/25 hover:border-accent/50 active:scale-[0.98] transition-all shadow-sm"
+            >
+              <Download size={13} className="shrink-0" />
+              <span className="hidden sm:inline">Install App</span>
+            </button>
+          )}
+
           {/* New Trade button */}
           <button
             onClick={() => openForm()}
@@ -467,6 +486,17 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       )}
+
+      {/* PWA Install Modal */}
+      <PwaInstallModal
+        open={installModalOpen}
+        onClose={() => setInstallModalOpen(false)}
+        deferredPrompt={deferredPrompt}
+        onInstallSuccess={() => {
+          setIsInstalled(true);
+          toast("EDGELOG installed successfully!", "success");
+        }}
+      />
     </div>
   );
 }
